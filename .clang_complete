@@ -1,0 +1,2 @@
+-std=c++11
+-L/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/ -L/Users/shiroko/Documents/Arduino/libraries/Makeblock-Libraries-master/src
