@@ -27,13 +27,13 @@ public:
 
   int append_invoke_func(joycon_invoke_func func);
 
-  int remove_invoke_func(int id = 0, joycon_invoke_func func = nullptr);
+  int remove_invoke_func(int id = -1, joycon_invoke_func func = nullptr);
 
   void loop();
 
-private:
   MePS2 *_control;
 
+private:
   joycon_invoke_func _invoke_list[MAX_INVOKE_LIST_COUNT];
 
   Joycon_Status _status;

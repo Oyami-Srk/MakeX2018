@@ -12,16 +12,16 @@ int Joycon::append_invoke_func(joycon_invoke_func func) {
 }
 
 int Joycon::remove_invoke_func(int id, joycon_invoke_func func) {
-  if (id == 0 && func == nullptr)
+  if (id == -1 && func == nullptr)
     return 1;
-  if (!id) {
+  if (id == -1) {
     for (int i = 0; i < this->invoke_count; i++)
       if (this->_invoke_list[i] == func) {
         id = i;
         break;
       }
   }
-  if (!id)
+  if (id == -1)
     return 1;
   this->invoke_count--;
   if (id < 0 || id > this->invoke_count)
@@ -55,8 +55,11 @@ void Joycon::loop() {
   this->_status.L2 = this->_control->ButtonPressed(MeJOYSTICK_L2);
 
   // invoke func
-  for (int i = 0; i < this->invoke_count; i++)
-    this->_invoke_list[i](&this->_status);
+  for (int i = 0; i < this->invoke_count; i++) {
+    Joycon_Status *s = new Joycon_Status;
+    memcpy(s, &this->_status, sizeof(Joycon_Status));
+    this->_invoke_list[i](s);
+  }
 
   this->_control->loop();
 }
