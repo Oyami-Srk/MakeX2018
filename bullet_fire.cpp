@@ -21,7 +21,7 @@ bool BulletFire::SwitchFire() {
 bool BulletFire::SwitchAngle() {
   if (!this->fire_angle) {
     this->SmartServo->moveTo(3,  // index
-                             90, // angle untested
+                             20, // angle untested
                              30  // speed rpm
     );
     this->fire_angle = true;

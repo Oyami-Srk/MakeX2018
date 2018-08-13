@@ -65,7 +65,7 @@ bool Arm::SwitchFlip() {
     this->last_flip = millis();
     this->isFilped = false;
   } else {
-    this->flip->run(-255);
+    this->flip->run(-180);
     this->last_flip = millis();
     this->isFilped = true;
   }

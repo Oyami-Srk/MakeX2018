@@ -57,6 +57,8 @@ int Movement::handle_joycon_y(Joycon_Status *status) {
   if (y > -TRIGGER_MOVEMENT_JOYCON && y < TRIGGER_MOVEMENT_JOYCON) {
     this->movement_raw(ystop);
   } else {
+    Serial.print("[MOVEMENT] Y-asis: ");
+    Serial.println(y);
     this->movement_raw(y < 0 ? backward : forward, 255,
                        5000 * (abs(y) - TRIGGER_MOVEMENT_JOYCON) /
                            (255 - TRIGGER_MOVEMENT_JOYCON));
@@ -69,6 +71,8 @@ int Movement::handle_joycon_x(Joycon_Status *status) {
   if (x > -TRIGGER_MOVEMENT_JOYCON && x < TRIGGER_MOVEMENT_JOYCON) {
     this->movement_raw(xstop);
   } else {
+    Serial.print("[MOVEMENT] X-asis: ");
+    Serial.println(x);
     this->movement_raw(x < 0 ? right : left, 255,
                        5000 * (abs(x) - TRIGGER_MOVEMENT_JOYCON) /
                            (255 - TRIGGER_MOVEMENT_JOYCON));

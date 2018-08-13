@@ -20,7 +20,7 @@ double angle_deg = 190.0 / PI;
 MeSmartServo SmartServo(PORT5);
 
 int Encoder_Config[4][2] = {{0, 1}, {7, 2}, {7, 1}, {0, 2}};
-int Arm_Handle[2] = {1, 2};
+int Arm_Handle[2] = {2, 1};
 Joycon broken_joycon(new MePS2(PORT_15));
 Movement movement(Encoder_Config);
 Arm *arm;
@@ -28,14 +28,17 @@ Collector *collector;
 BulletFire *bullet_fire;
 
 int joycon_movement_x(Joycon_Status *status) {
-  return movement.handle_joycon_x(status);
+  movement.handle_joycon_x(status);
+  delete status;
+  return 0;
 }
 
 int joycon_movement_y(Joycon_Status *status) {
-  return movement.handle_joycon_y(status);
+  movement.handle_joycon_y(status);
+  delete status;
+  return 0;
 }
 
-/*
 int joycon_handle_function(Joycon_Status *status) {
   if (status->START) {
     bullet_fire->Power();
@@ -43,29 +46,33 @@ int joycon_handle_function(Joycon_Status *status) {
   }
   if (status->R1) {
     bullet_fire->SwitchFire();
-    Serial.println("[TRIGGERED] BulletFire->Fire");
-  }
-  if (status->R2) {
-    bullet_fire->SwitchAngle();
-    Serial.println("[TRIGGERED] BulletFire->Angle");
+    Serial.println("[TRIGGERED] BulletFire->SwitchFire");
   }
   if (status->LEFT) {
     arm->SwitchHand(1);
-    Serial.println("[TRIGGERED] Arm->Left");
+    Serial.println("[TRIGGERED] Arm->SwitchHand(1)");
   }
   if (status->RIGHT) {
     arm->SwitchHand(2);
-    Serial.println("[TRIGGERED] Arm->Right");
+    Serial.println("[TRIGGERED] Arm->SwitchHand(2)");
   }
   if (status->UP) {
     arm->SwitchHand(0);
-    Serial.println("[TRIGGERED] Arm->All");
+    Serial.println("[TRIGGERED] Arm->SwitchHand(0)");
+  }
+  if (status->KEY1) {
+    arm->SwitchLift(-255);
+    Serial.println("[TRIGGERED] Arm->SwitchLift(up)");
+  }
+  if (status->KEY3) {
+    arm->SwitchLift(255);
+    Serial.println("[TRIGGERED] Arm->SwitchLift(down)");
+  }
+  if (!status->KEY1 && !status->KEY3) {
+    arm->SwitchLift(0);
+    // Serial.println("[TRIGGERED] Arm->SwitchLift(stop)");
   }
   if (status->L1) {
-    arm->SwitchLift();
-    Serial.println("[TRIGGERED] Arm->Lift");
-  }
-  if (status->L2) {
     arm->SwitchFlip();
     Serial.println("[TRIGGERED] Arm->Flip");
   }
@@ -73,33 +80,7 @@ int joycon_handle_function(Joycon_Status *status) {
     collector->Switch();
     Serial.println("[TRIGGERED] Collector->Switch");
   }
-  return 0;
-}
-*/
-
-int joycon_handle_function(Joycon_Status *status) {
-  if (status->START)
-    bullet_fire->Power();
-  if (status->R1)
-    bullet_fire->SwitchFire();
-  if (status->R2)
-    bullet_fire->SwitchAngle();
-  if (status->LEFT)
-    arm->SwitchHand(1);
-  if (status->RIGHT)
-    arm->SwitchHand(2);
-  if (status->UP)
-    arm->SwitchHand(0);
-  if (status->KEY1)
-    arm->SwitchLift(255);
-  if (status->KEY3)
-    arm->SwitchLift(-255);
-  if (!status->KEY1 && !status->KEY3)
-    arm->SwitchLift(0);
-  if (status->L1)
-    arm->SwitchFlip();
-  if (status->SELECT)
-    collector->Switch();
+  delete status;
   return 0;
 }
 
@@ -141,7 +122,7 @@ void setup() {
 void _delay(float seconds) {
   long endTime = millis() + seconds * 1000;
   while (millis() < endTime)
-    ;
+    broken_joycon._control->loop();
 }
 void loop() {
   broken_joycon.loop();
@@ -149,4 +130,6 @@ void loop() {
   long current = millis();
   bullet_fire->loop(current);
   arm->loop(current);
+
+  _delay(0.1);
 }
