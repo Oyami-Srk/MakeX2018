@@ -1,6 +1,6 @@
 #include "collector.h"
 
-Collector::Collector() { this->motor = new MeDCMotor(4); }
+Collector::Collector(int index) { this->motor = new MeDCMotor(index); }
 
 void Collector::Switch() {
   if (this->isRunning) {

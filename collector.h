@@ -9,7 +9,7 @@
 
 class Collector {
 public:
-  Collector();
+  Collector(int index = 4);
   void Switch();
 
 private:
