@@ -91,9 +91,11 @@ int joycon_handle_function(Joycon_Status *status) {
   if (status->UP)
     arm->SwitchHand(0);
   if (status->KEY1)
-    arm->SwitchLift(true);
+    arm->SwitchLift(255);
   if (status->KEY3)
-    arm->SwitchLift(false);
+    arm->SwitchLift(-255);
+  if (!status->KEY1 && !status->KEY3)
+    arm->SwitchLift(0);
   if (status->L1)
     arm->SwitchFlip();
   if (status->SELECT)

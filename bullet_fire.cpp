@@ -13,7 +13,7 @@ BulletFire::BulletFire(MeSmartServo *ss) {
 bool BulletFire::SwitchFire() {
   if (this->last)
     return false;
-  this->fire->run(50);
+  this->fire->run(-50);
   this->last = millis();
   return true;
 }

@@ -41,7 +41,9 @@ bool Arm::SwitchHand(int id) {
   return true;
 }
 
-bool Arm::SwitchLift(bool upward) {
+bool Arm::SwitchLift(int power) {
+  this->lift->run(power);
+  /*
   if (this->last_lift)
     return false;
   if (!upward) {
@@ -51,6 +53,7 @@ bool Arm::SwitchLift(bool upward) {
     this->lift->run(150); // upward
     this->last_lift = millis();
   }
+  */
   return true;
 }
 
@@ -70,10 +73,6 @@ bool Arm::SwitchFlip() {
 }
 
 void Arm::loop(long current) {
-  if (this->last_lift && current - this->last_lift >= this->lift_time) {
-    this->last_lift = 0;
-    this->lift->run(0);
-  }
   if (this->last_flip && current - this->last_flip >= this->flip_time) {
     this->last_flip = 0;
     this->flip->run(0);

@@ -20,7 +20,7 @@ public:
   Arm(MeSmartServo *ss, int handles[2], int lift = 1, int flip = 2);
   bool SwitchHand(int id = 0); // id in handles, -1 means all
   bool SwitchFlip();
-  bool SwitchLift(bool upward);
+  bool SwitchLift(int power);
   void loop(long current);
 
 private:
@@ -31,13 +31,11 @@ private:
   bool isFilped = true; // true -> fliped (angle 90)
   bool isOpen_1 = false;
   bool isOpen_2 = false;
-  long last_lift = 0;
   long last_flip = 0;
   long last_open_1 = 0;
   long last_open_2 = 0;
 
-  static const long lift_time = 50;
-  static const long flip_time = 1600;
+  static const long flip_time = 1200;
   static const long open_time = 600;
 };
 
