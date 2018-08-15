@@ -26,6 +26,7 @@ public:
   int handle_joycon_x(Joycon_Status *status);
   int handle_joycon_y(Joycon_Status *status);
   int handle_joycon_k(Joycon_Status *status);
+  int SwitchPower();
 
   void movement_raw(enum movement_raw_type type, int power = 255,
                     int speed = 180);
@@ -36,7 +37,8 @@ private:
   _ENCODER_ *Y1 = nullptr;
   _ENCODER_ *Y2 = nullptr;
 
-  int SPEED_ = 3600;
+  int SPEED_ = 100;
+  bool _lock_ = false;
 };
 
 #endif

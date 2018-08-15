@@ -63,7 +63,7 @@ int Movement::handle_joycon_y(Joycon_Status *status) {
     /*this->movement_raw(y < 0 ? backward : forward, 255,
                        this->SPEED_ * (abs(y) - TRIGGER_MOVEMENT_JOYCON) /
                            (255 - TRIGGER_MOVEMENT_JOYCON));*/
-    this->movement_raw(y < 0 ? backward : forward, 255, 100);
+    this->movement_raw(y < 0 ? backward : forward, 255, this->SPEED_);
   }
   return 0;
 }
@@ -78,7 +78,7 @@ int Movement::handle_joycon_x(Joycon_Status *status) {
     /*this->movement_raw(x < 0 ? right : left, 255,
                        this->SPEED_ * (abs(x) - TRIGGER_MOVEMENT_JOYCON) /
                            (255 - TRIGGER_MOVEMENT_JOYCON));*/
-    this->movement_raw(x < 0 ? right : left, 255, 100);
+    this->movement_raw(x < 0 ? right : left, 255, this->SPEED_);
   }
   return 0;
 }
@@ -96,6 +96,10 @@ int Movement::handle_joycon_k(Joycon_Status *status) {
   } else if (status->KEY4) {
     this->movement_raw(turn_left, 255, 80);
   }
+  if (status->R2) {
+    this->_lock_ = false; // Add loop to delay the _lock_
+    this->SwitchPower();
+  }
 }
 
 void Movement::begin() {
@@ -107,4 +111,12 @@ void Movement::begin() {
   this->Y2->setPWM(255);
   this->X1->setPWM(255);
   this->X2->setPWM(255);
+}
+
+int Movement::SwitchPower() {
+  if (this->_lock_)
+    return 1;
+  this->SPEED_ = this->SPEED_ == 100 ? 50 : 100;
+  this->_lock_ = true;
+  return 0;
 }
