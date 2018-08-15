@@ -39,6 +39,12 @@ int joycon_movement_y(Joycon_Status *status) {
   return 0;
 }
 
+int joycon_movement_k(Joycon_Status *status) {
+  movement.handle_joycon_k(status);
+  delete status;
+  return 0;
+}
+
 int joycon_handle_function(Joycon_Status *status) {
   if (status->START) {
     bullet_fire->Power();
@@ -116,20 +122,22 @@ void setup() {
   Serial.println("   > . <");
   broken_joycon.append_invoke_func(joycon_movement_y);
   broken_joycon.append_invoke_func(joycon_movement_x);
+  broken_joycon.append_invoke_func(joycon_movement_k);
   broken_joycon.append_invoke_func(joycon_handle_function);
 }
 
 void _delay(float seconds) {
-  long endTime = millis() + seconds * 1000;
-  while (millis() < endTime)
+  long current = millis();
+  long endTime = current + seconds * 1000;
+  while (current < endTime) {
+    bullet_fire->loop(current);
+    arm->loop(current);
     broken_joycon._control->loop();
+    current = millis();
+  }
 }
 void loop() {
   broken_joycon.loop();
-
-  long current = millis();
-  bullet_fire->loop(current);
-  arm->loop(current);
 
   _delay(0.1);
 }

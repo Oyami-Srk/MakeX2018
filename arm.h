@@ -36,7 +36,7 @@ private:
   long last_open_2 = 0;
 
   static const long flip_time = 1200;
-  static const long open_time = 600;
+  static const long open_time = 200;
 };
 
 #endif

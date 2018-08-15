@@ -22,7 +22,7 @@ bool Arm::SwitchHand(int id) {
       this->last_open_1 = millis();
       this->isOpen_1 = true;
     } else {
-      this->SmartServo->setPwmMove(this->handles[0], 50);
+      this->SmartServo->setPwmMove(this->handles[0], 150);
       this->last_open_1 = millis();
       this->isOpen_1 = false;
     }
@@ -33,7 +33,7 @@ bool Arm::SwitchHand(int id) {
       this->last_open_2 = millis();
       this->isOpen_2 = true;
     } else {
-      this->SmartServo->setPwmMove(this->handles[1], -50);
+      this->SmartServo->setPwmMove(this->handles[1], -150);
       this->last_open_2 = millis();
       this->isOpen_2 = false;
     }
@@ -65,7 +65,7 @@ bool Arm::SwitchFlip() {
     this->last_flip = millis();
     this->isFilped = false;
   } else {
-    this->flip->run(-180);
+    this->flip->run(-200);
     this->last_flip = millis();
     this->isFilped = true;
   }
