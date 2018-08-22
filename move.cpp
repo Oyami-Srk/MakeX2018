@@ -89,15 +89,13 @@ int Movement::handle_joycon_k(Joycon_Status *status) {
       (abs(status->R.Y) < TRIGGER_MOVEMENT_JOYCON)) {
     this->movement_raw(xstop);
     this->movement_raw(ystop);
-    return 0;
-  }
-  if (status->KEY2) {
+  } else if (status->KEY2) {
     this->movement_raw(turn_right, 255, 80);
   } else if (status->KEY4) {
     this->movement_raw(turn_left, 255, 80);
   }
-  if (status->R2) {
-    this->_lock_ = false; // Add loop to delay the _lock_
+  if (status->KEY_R) {
+    Serial.println("Triggered power switch");
     this->SwitchPower();
   }
 }
@@ -117,6 +115,13 @@ int Movement::SwitchPower() {
   if (this->_lock_)
     return 1;
   this->SPEED_ = this->SPEED_ == 100 ? 50 : 100;
-  this->_lock_ = true;
+  Serial.print("Movement speed changed, new value is");
+  Serial.println(this->SPEED_);
+  this->_lock_ = millis();
   return 0;
+}
+
+void Movement::loop(long current) {
+  if (this->_lock_ && current - this->_lock_ >= this->lock_time)
+    this->_lock_ = 0;
 }

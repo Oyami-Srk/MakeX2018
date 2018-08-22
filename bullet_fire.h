@@ -32,7 +32,7 @@ private:
   long last = 0;           // if not 0, delay it+1.2s
   long last_bl = 0;
   static const long fire_time = 1200;
-  static const long delay_time = 2000;
+  static const long delay_time = 500;
   bool isOpen = false;
 };
 

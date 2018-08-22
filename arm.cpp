@@ -42,7 +42,7 @@ bool Arm::SwitchHand(int id) {
 }
 
 bool Arm::SwitchLift(int power) {
-  this->lift->run(power);
+  this->lift->run(-power);
   /*
   if (this->last_lift)
     return false;
@@ -57,7 +57,9 @@ bool Arm::SwitchLift(int power) {
   return true;
 }
 
-bool Arm::SwitchFlip() {
+bool Arm::SwitchFlip(int power) {
+  this->flip->run(power);
+  /*
   if (this->last_flip)
     return false;
   if (this->isFilped) {
@@ -70,13 +72,16 @@ bool Arm::SwitchFlip() {
     this->isFilped = true;
   }
   return true;
+  */
 }
 
 void Arm::loop(long current) {
+  /*
   if (this->last_flip && current - this->last_flip >= this->flip_time) {
     this->last_flip = 0;
     this->flip->run(0);
   }
+  */
   if (this->last_open_1 && current - this->last_open_1 >= this->open_time) {
     this->SmartServo->setPwmMove(this->handles[0], 0);
     this->last_open_1 = 0;

@@ -19,7 +19,7 @@ class Arm {
 public:
   Arm(MeSmartServo *ss, int handles[2], int lift = 1, int flip = 2);
   bool SwitchHand(int id = 0); // id in handles, -1 means all
-  bool SwitchFlip();
+  bool SwitchFlip(int power);
   bool SwitchLift(int power);
   void loop(long current);
 

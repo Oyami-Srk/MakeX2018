@@ -35,7 +35,7 @@ void Joycon::loop() {
   this->_status.R.X = this->_control->MeAnalog(MeJOYSTICK_RX);
   this->_status.R.Y = this->_control->MeAnalog(MeJOYSTICK_RY);
   this->_status.L.X = this->_control->MeAnalog(MeJOYSTICK_LX);
-  this->_status.L.Y = this->_control->MeAnalog(MeJOYSTICK_LX);
+  this->_status.L.Y = this->_control->MeAnalog(MeJOYSTICK_LY);
   this->_status.R1 = this->_control->ButtonPressed(MeJOYSTICK_R1);
   this->_status.UP = this->_control->ButtonPressed(MeJOYSTICK_UP);
   this->_status.DOWN = this->_control->ButtonPressed(MeJOYSTICK_DOWN);
